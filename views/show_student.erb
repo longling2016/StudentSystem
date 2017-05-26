@@ -1,0 +1,11 @@
+<h1>#{@student.studentID}</h1>
+<p> Firstname: #{@student.firstname}</p>
+<p> Lastname: #{@student.lastname}</p>
+<p> Birthday: #{@student.birthday.strftime("%e %B %Y") if @student.birthday}</p>
+<p> Address: #{@student.address}</p>
+<p> <a href="/students">back to students index</a></p>
+<p> <a href="/students/#{@student.studentID}/edit">edit this student</a>
+<form action="/students/#{@student.studentID}" method="POST">
+  <input type="hidden" name="_method" value="DELETE"/>
+  <input type="submit" value="delete this student"/>
+</form>

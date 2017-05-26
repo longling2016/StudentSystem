@@ -1,23 +1,35 @@
 require 'sinatra'
-require 'slim'
 require 'sass'
-require './song'
+require './students'
+require './comments'
 
 get('/styles.css'){ scss :styles }
 
 get '/' do
-  slim :home
+  erb :home
 end
 
 get '/about' do
   @title = "All About This Website"
-  slim :about
+  erb :about
 end
 
 get '/contact' do
-  slim :contact
+  erb :contact
+end
+
+get '/video' do
+  erb :video
+end
+
+get '/login' do
+  erb :login
+end
+
+get '/logout' do
+  erb :login
 end
 
 not_found do
-  slim :not_found
+  erb :not_found
 end
