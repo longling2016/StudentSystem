@@ -1,15 +1,20 @@
 
 require 'dm-core'
 require 'dm-migrations'
+require 'dm-timestamps'
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
 
 class Comment
   include DataMapper::Resource
-  property :commentID, Serial
+  property :id, Serial
+  property :content, Text
   property :name, String
   property :created_at, DateTime
-  property :content, Text
+
+  def created_at=datetime
+    super DateTime.strptime(datetime, "%A, %d. %B %Y %I:%M%p")
+  end
 end
 
 DataMapper.finalize
@@ -24,28 +29,12 @@ get '/comments/new' do
   erb :new_comment
 end
 
-# get '/songs/:id' do
-#   @song = Song.get(params[:id])
-#   erb :show_song
-# end
-#
-# get '/songs/:id/edit' do
-#   @song = Song.get(params[:id])
-#   erb :edit_song
-# end
-#
-# post '/songs' do
-#   song = Song.create(params[:song])
-#   redirect to("/songs/#{song.id}")
-# end
-#
-# put '/songs/:id' do
-#   song = Song.get(params[:id])
-#   song.update(params[:song])
-#   redirect to("/songs/#{song.id}")
-# end
-#
-# delete '/songs/:id' do
-#   Song.get(params[:id]).destroy
-#   redirect to('/songs')
-# end
+get '/comments/:id' do
+  @comment = Comment.get(params[:id])
+  erb :show_comment
+end
+
+post '/comments' do
+  comment = Comment.create(params[:comment])
+  redirect to("/comments/#{comment.id}")
+end
