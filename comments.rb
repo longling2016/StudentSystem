@@ -18,12 +18,12 @@ get '/comments' do
   @comments = Comment.all
   erb :comments
 end
-#
-# get '/comments/new' do
-#   @comment = Comment.new
-#   erb :new_Comment
-# end
-#
+
+get '/comments/new' do
+  @comment = Comment.new
+  erb :new_comment
+end
+
 # get '/songs/:id' do
 #   @song = Song.get(params[:id])
 #   erb :show_song

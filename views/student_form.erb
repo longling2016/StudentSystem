@@ -1,23 +1,23 @@
 <label for="studentID">Student ID:</label>
-<input id="studentID" type="number" name="student[studentID]" >
+<input id="studentID" type="number" name="student[studentID]" value=<%= @student.studentID if @student %> >
 
 <br/>
 
 <label for="firstname">Firstname:</label>
-<input id="firstname" type="text" name="student[firstname]" >
+<input id="firstname" type="text" name="student[firstname]" value=<%= @student.firstname if @student %>>
 
 <label for="lastname">Lastname:</label>
-<input id="lastname" type="text" name="student[lastname]" >
+<input id="lastname" type="text" name="student[lastname]" value=<%= @student.lastname if @student %> >
 
 <br/>
 
 <label for="birthday">Birthday(mm/dd/yyyy):</label>
-<input id="birthday" type="text" name="student[birthday]" >
+<input id="birthday" type="text" name="student[birthday]" value=<%= @student.birthday.strftime("%m/%d/%Y") if @student %> >
 
 <br />
 
 <label for="address">Address:</label>
-<input id="address" type="text" name="student[address]" >
+<input id="address" type="text" name="student[address]" value=<%= @student.address if @student %> >
 
 <br />
 

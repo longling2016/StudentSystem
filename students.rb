@@ -31,12 +31,13 @@ get '/students/new' do
 end
 
 get '/students/:studentID' do
-  @students = Student.get(params[:studentID])
+  puts 'db_log: hitting get method'
+  @student = Student.get(params[:studentID])
   erb :show_student
 end
 
 get '/students/:studentID/edit' do
-  @students = Student.get(params[:studentID])
+  @student = Student.get(params[:studentID])
   erb :edit_student
 end
 
@@ -48,6 +49,8 @@ end
 put '/students/:studentID' do
   student = Student.get(params[:studentID])
   student.update(params[:student])
+  puts 'db_log: hitting put method'
+  puts student.studentID
   redirect to("/students/#{student.studentID}")
 end
 
