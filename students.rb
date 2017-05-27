@@ -56,7 +56,9 @@ get '/students/:studentID/edit' do
 end
 
 post '/students' do
+  # check if current ID is already exist or not
   if Student.get(params[:student][:studentID]).nil?
+    # check if user try to input empty content
     if params[:student][:firstname].gsub!(/\W+/, '').eql?('') || params[:student][:lastname].gsub!(/\W+/, '').eql?('')
       erb :wrong_date
     else
