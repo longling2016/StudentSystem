@@ -1,24 +1,19 @@
-require './students'
+
 
 get '/login' do
-  puts 'inside login'
-  puts session[:message]
   erb :login
 end
 
-get '/successlogin' do
-  erb :successlogin
-end
-
 post '/login' do
-  puts 'here'
+  puts session[:message]
   if params[:username] == settings.username && params[:password] == settings.password
     session[:admin] = true
-    puts 'inside if'
-    puts session[:message]
-    redirect to "#{session[:message]}"
+    if session[:message].nil?
+      erb :successlogin
+    else
+      redirect to("#{session[:message]}")
+    end
   else
-    puts 'inside else'
     erb :login
   end
 end

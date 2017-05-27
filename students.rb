@@ -1,7 +1,8 @@
 
 require 'dm-core'
 require 'dm-migrations'
-require './login'
+
+enable :sessions
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
 
@@ -21,6 +22,8 @@ end
 
 DataMapper.finalize
 
+enable :sessions
+
 get '/students' do
   @students = Student.all
   erb :students
@@ -31,10 +34,8 @@ get '/students/new' do
     @students = Student.new
     erb :new_student
   else
-    puts 'inside here1'
     session[:message] = "/students/new"
-    puts session[:message]
-    redirect to("/login")
+    erb :login
   end
 end
 
