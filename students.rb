@@ -1,6 +1,7 @@
 
 require 'dm-core'
 require 'dm-migrations'
+require './login'
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
 
@@ -26,35 +27,74 @@ get '/students' do
 end
 
 get '/students/new' do
-  @students = Student.new
-  erb :new_student
+  if session[:admin]
+    @students = Student.new
+    erb :new_student
+  else
+    puts 'inside here1'
+    session[:message] = "/students/new"
+    puts session[:message]
+    redirect to("/login")
+  end
 end
 
+
 get '/students/:studentID' do
-  puts 'db_log: hitting get method'
   @student = Student.get(params[:studentID])
   erb :show_student
 end
 
 get '/students/:studentID/edit' do
-  @student = Student.get(params[:studentID])
-  erb :edit_student
+  if session[:admin]
+    @student = Student.get(params[:studentID])
+    erb :edit_student
+  else
+    session[:message] = "/students/#{params[:studentID]}/edit"
+    redirect to("/login")
+  end
 end
 
 post '/students' do
-  student = Student.create(params[:student])
-  redirect to("/students/#{student.studentID}")
+  if Student.get(params[:student][:studentID]).nil?
+    if params[:student][:firstname].gsub!(/\W+/, '').eql?('') || params[:student][:lastname].gsub!(/\W+/, '').eql?('')
+      erb :wrong_date
+    else
+      begin
+        Date.strptime(params[:student][:birthday], "%m/%d/%Y")
+        student = Student.create(params[:student])
+        redirect to("/students/#{student.studentID}")
+      rescue ArgumentError
+        erb :wrong_date
+      end
+    end
+  else
+    erb :wrong_date
+  end
 end
 
 put '/students/:studentID' do
-  student = Student.get(params[:studentID])
-  student.update(params[:student])
-  puts 'db_log: hitting put method'
-  puts student.studentID
-  redirect to("/students/#{student.studentID}")
+  if Student.get(params[:student][:studentID]).nil? || params[:student][:studentID].eql?(params[:studentID])
+    if params[:student][:firstname].gsub!(/\W+/, '').eql?('') || params[:student][:lastname].gsub!(/\W+/, '').eql?('')
+      @cur_student = params[:studentID]
+      erb :wrong_date
+    else
+      student = Student.get(params[:studentID])
+      student.update(params[:student])
+      puts 'db_log: hitting put method'
+      puts student.studentID
+      redirect to("/students/#{student.studentID}")
+    end
+  else
+    erb :wrong_date
+  end
 end
 
 delete '/students/:studentID' do
-  Student.get(params[:studentID]).destroy
-  redirect to('/students')
+  if session[:admin]
+    Student.get(params[:studentID]).destroy
+    redirect to('/students')
+  else
+    session[:message] = "/students/#{params[:studentID]}"
+    redirect to("/login")
+  end
 end

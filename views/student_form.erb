@@ -17,9 +17,11 @@
 <br />
 
 <label for="address">Address:</label>
-<input id="address" type="text" name="student[address]" value=<%= @student.address if @student %> >
+<textarea id="address" name="student[address]"><%= @student.address if @student %></textarea>
 
 <br />
 
 <button type="submit" class="btn">Save Student</button>
+
+<p>Note: You can only leave "address" item as empty.</p>
 

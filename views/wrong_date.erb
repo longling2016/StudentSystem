@@ -1,0 +1,15 @@
+<h1>There must be something wrong with user input.</h1>
+<p>Please don't leave only whitespaces or/and punctuations. Don't create an existing student ID.</p>
+
+<% if @type.eql?('comment') %>
+    <li>Please <a href="/comments/new" title="Add new comment">retry</a>.</li>
+<% else %>
+    <% if @cur_student %>
+        <li>Please <a href="/students/<%= @cur_student %>/edit" title="Edit Students">retry</a>.</li>
+    <% else %>
+        <li>Please <a href="/students/new" title="New Students">retry</a>.</li>
+    <% end %>
+<% end %>
+
+<img style='height: 30%; width: 45%; object-fit: fill' src="/images/wrong.png" alt="wrong image">
+

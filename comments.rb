@@ -35,6 +35,11 @@ get '/comments/:id' do
 end
 
 post '/comments' do
-  comment = Comment.create(params[:comment])
-  redirect to("/comments/#{comment.id}")
+  if params[:comment][:name].gsub!(/\W+/, '').eql?('') || params[:comment][:content].gsub!(/\W+/, '').eql?('')
+    @type = 'comment'
+    erb :wrong_date
+  else
+    comment = Comment.create(params[:comment])
+    redirect to("/comments/#{comment.id}")
+  end
 end
