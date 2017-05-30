@@ -35,7 +35,7 @@ get '/comments/:id' do
 end
 
 post '/comments' do
-  if params[:comment][:name].gsub!(/\W+/, '').eql?('') || params[:comment][:content].gsub!(/\W+/, '').eql?('')
+  if params[:comment][:name].gsub(/\W+/, '').eql?('') || params[:comment][:content].gsub(/\W+/, '').eql?('')
     @type = 'comment'
     erb :wrong_date
   else

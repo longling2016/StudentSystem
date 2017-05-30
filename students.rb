@@ -59,7 +59,7 @@ post '/students' do
   # check if current ID is already exist or not
   if Student.get(params[:student][:studentID]).nil?
     # check if user try to input empty content
-    if params[:student][:firstname].gsub!(/\W+/, '').eql?('') || params[:student][:lastname].gsub!(/\W+/, '').eql?('')
+    if params[:student][:firstname].gsub(/\W+/, '').eql?('') || params[:student][:lastname].gsub(/\W+/, '').eql?('')
       erb :wrong_date
     else
       begin
@@ -77,7 +77,7 @@ end
 
 put '/students/:studentID' do
   if Student.get(params[:student][:studentID]).nil? || params[:student][:studentID].eql?(params[:studentID])
-    if params[:student][:firstname].gsub!(/\W+/, '').eql?('') || params[:student][:lastname].gsub!(/\W+/, '').eql?('')
+    if params[:student][:firstname].gsub(/\W+/, '').eql?('') || params[:student][:lastname].gsub(/\W+/, '').eql?('')
       @cur_student = params[:studentID]
       erb :wrong_date
     else
